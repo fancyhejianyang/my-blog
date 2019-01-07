@@ -1,0 +1,12 @@
+<div id="article-list">
+  <div *ngFor="let item of articles; let i=index">
+    <h3>{{item.title}}</h3>
+    <p>{{item.summary}}</p>
+    <div>
+      <a [routerLink]="'/view/article'" [queryParams]="{arc_id:item.arc_id}">阅读全文...</a>
+    </div>
+    <div class="article-info">
+      发布于{{item.postDate}} <img src="../../assets/view.png" alt=""> {{item.views}}
+    </div>
+  </div>
+</div>

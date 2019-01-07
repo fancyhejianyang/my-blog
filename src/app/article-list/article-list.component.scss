@@ -1,0 +1,17 @@
+#article-list{
+  min-width:600px;
+  max-width: 900px;
+  margin:0 auto;
+}
+.article-info{
+  height: 30px;
+  font-size: 14px;
+  line-height: 30px;
+  color:rgb(110, 106, 106);
+  img{
+    width: 20px;
+    margin-left: 10px;
+    position: relative;
+    top:5px;
+  }
+}

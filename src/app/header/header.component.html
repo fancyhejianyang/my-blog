@@ -1,0 +1,7 @@
+<div class="nav">
+  <ul class='horizon'>
+    <li *ngFor="let item of types; let i=index">
+      <a (click)="toggleArticle($event,item)" [routerLink]="['/view',{'?type':item.type}]">{{item.txt}}</a>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,17 @@
+<div id="article">
+  <div class="arc_title">{{arcticle.arc_title}}</div>
+  <div class="arc_relate">
+    <span>{{arcticle.arc_time}}</span>
+    <span style="cursor: pointer;color: rgba(19, 134, 155, 0.616);">{{arcticle.arc_writer}}</span>
+    <span>阅读数：{{arcticle.arc_read}}</span>
+  </div>
+  <div class="orginal">
+    <div *ngIf="arcticle.arc_orginal">
+      版权声明：本文为博主原创，转载请注明出处：
+    </div>
+    <div *ngIf="!arcticle.arc_orginal">
+      原文地址：
+    </div>
+  </div>
+  <div class="arc_main"></div>
+</div>

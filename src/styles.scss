@@ -1,1 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
+html.body{
+  margin:0;
+  padding: 0;
+}
+html{
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', 'serif';
+  color:rgb(19, 16, 16);
+}
+li{
+  list-style: none;
+}
+a{
+  text-decoration: none;
+  color:rgb(25, 175, 235);
+}
+a:visited{
+  color:rgb(25, 175, 235);
+}
+ul.horizon{
+  li{
+    float: left;
+  }
+  ::after{
+    display: block;
+    content: ' ';
+    clear: both;
+  }
+}
