@@ -20,9 +20,6 @@ export class ArticleListComponent implements OnInit {
     private activeRouter: ActivatedRoute,
     private articleService: ArticleListService
   ) {
-    // this.activeRouter.queryParams.subscribe((params: Params) => {
-    //   this.arc_type = params['type'];
-    // });
   }
   articles: Array<Article> = [
     {
@@ -30,7 +27,7 @@ export class ArticleListComponent implements OnInit {
       summary: 'HTML5 输入框标签在安卓端获得焦点，软键盘自动弹出，页面不会自觉往上弹出；IOS恰恰相反。。。。。',
       postDate: '2019-01-04',
       views: 5,
-      type: 'all',
+      type: 'practicial',
       arc_id: 8
     },
     {
@@ -38,7 +35,7 @@ export class ArticleListComponent implements OnInit {
       summary: 'HTML5 输入框标签在安卓端获得焦点，软键盘自动弹出，页面不会自觉往上弹出；IOS恰恰相反。。。。。',
       postDate: '2019-01-04',
       views: 5,
-      type: 'all',
+      type: 'practicial',
       arc_id: 8
     }
   ];
