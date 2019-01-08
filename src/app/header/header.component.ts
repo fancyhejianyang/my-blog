@@ -36,8 +36,7 @@ export class HeaderComponent implements OnInit {
 
   }
   toggleArticle(e, item) {
-    // this.arctype.emit(item);
-    // this.router.navigateByUrl('view');
+    this.arctype.emit(item);
   }
 
 }

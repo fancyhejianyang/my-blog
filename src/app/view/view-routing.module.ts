@@ -15,7 +15,7 @@ const viewRoutes: Routes = [
       },
       {
         path: 'view',
-        component: ArticleListComponent
+        component: ArticleListComponent,
       },
       {
         path: 'view/article',
@@ -28,7 +28,7 @@ const viewRoutes: Routes = [
   imports: [
     CommonModule, RouterModule.forChild(viewRoutes)
   ],
-  entryComponents: [ViewComponent, ArticleComponent],
+  entryComponents: [ViewComponent, ArticleListComponent],
   exports: [RouterModule],
 })
 export class ViewRoutingModule { }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-const Showdown = require('showdown');
+// const Showdown = require('showdown');
+import Showdown from 'showdown';
 @Component({
   selector: 'app-article',
   templateUrl: './article.component.html',
