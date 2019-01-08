@@ -8,10 +8,11 @@ import { ArticleComponent } from '../article/article.component';
 // import { ArticleListModule } from '../article-list/article-list.module';
 // import { ArticleListRoutingModule } from '../article-list/article-list-routing.module';
 import { ArticleType } from '../util/arcticle-type.pipe';
+import { ArticleEditComponent } from '../article-edit/article-edit.component';
 @NgModule({
   imports: [
     CommonModule, ViewRoutingModule
   ],
-  declarations: [ViewComponent, HeaderComponent, ArticleListComponent, ArticleComponent, ArticleType]
+  declarations: [ViewComponent, HeaderComponent, ArticleListComponent, ArticleComponent, ArticleEditComponent, ArticleType]
 })
 export class ViewModule { }

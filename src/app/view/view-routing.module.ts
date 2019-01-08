@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ViewComponent } from './view.component';
 import { ArticleComponent } from '../article/article.component';
 import { ArticleListComponent } from '../article-list/article-list.component';
+import { ArticleEditComponent } from '../article-edit/article-edit.component';
 
 const viewRoutes: Routes = [
   {
@@ -20,6 +21,10 @@ const viewRoutes: Routes = [
       {
         path: 'view/article',
         component: ArticleComponent
+      },
+      {
+        path: 'edit',
+        component: ArticleEditComponent
       }
     ]
   }

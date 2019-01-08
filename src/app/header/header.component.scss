@@ -1,17 +1,18 @@
-.nav{
+.nav {
   text-align: center;
-  ul{
-    margin:0 auto;
+  ul {
+    margin: 0 auto;
     height: 50px;
-    width: 500px;
+    width: 600px;
+    padding: 0px;
     padding-bottom: 20px;
-  border-bottom: 1px solid rgb(212, 45, 15);
+    border-bottom: 1px solid rgb(212, 45, 15);
   }
-  li{
+  li {
     height: 50px;
     width: 100px;
-    a{
-      padding:0 10px;
+    a {
+      padding: 0 10px;
       line-height: 50px;
       display: inline-block;
       font-size: 20px;
@@ -20,9 +21,9 @@
       box-sizing: border-box;
       cursor: pointer;
     }
-    :hover{
+    :hover {
       background: rgba(8, 109, 204, 0.589);
-      color:#fff;
+      color: #fff;
     }
   }
 }
