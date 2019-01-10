@@ -1,9 +1,58 @@
 .arc-edit {
   max-width: 1000px;
   margin: 0 auto;
-  margin-top:30px;
+  margin-top: 30px;
   height: 900px;
   .w-e-text {
     height: 100% !important;
+  }
+}
+
+.title {
+  margin: 10px 0;
+  input {
+    width: 100%;
+    font-size: 24px;
+    color: #ccc;
+    line-height: 40px;
+  }
+}
+
+.options {
+  margin: 10px 0;
+  font-size: 14px;
+  line-height: 30px;
+  label{
+    margin:0 10px;
+    span{
+      color: rgb(11, 130, 167);
+    }
+    select{
+      line-height: 30px;
+    }
+    .tag{
+      width: 180px;
+      margin-right: 10px;
+    }
+    .modal{
+      position: absolute;
+      width: 300px;
+      right: -340px;
+      padding:15px;
+      top:-10px;
+      background: #fff;
+      opacity: 1;
+      z-index: 999999;
+      box-shadow: #ccc 3px 3px 3px;
+      label{
+        display: inline-block;
+        width: 80px;
+        margin: 10px;
+        text-align: center;
+        background-color: rgba(20, 133, 207, 0.582);
+        color: rgb(238, 17, 17);
+        cursor: pointer;
+      }
+    }
   }
 }

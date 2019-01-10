@@ -1,6 +1,36 @@
 <div class="arc-edit">
-  <div class="edit"></div>
-  <div class="post-msg">
-    <button (click)="post()">提交</button>
-  </div>
+  <form [formGroup]="articleForm">
+    <div class="title">
+      <input type="text" formControlName="arc_title" placeholder="请输入文章标题">
+    </div>
+    <div class="options">
+      <label>
+        <span>文章分类：</span>
+        <select formControlName="type" id="0" (click)="optionChange($event)">
+          <option 
+           *ngFor="let item of types; let i=index"
+           value="{{item.value}}" id="{{item.id}}">{{item.value}}
+        </option>
+        </select>
+      </label>
+      <label>
+        <span>是否原创：</span>
+        <input type="radio" formControlName="arc_orginal" name="arc_orginal" value="0" checked="{{true}}"> 是
+        <input type="radio" formControlName="arc_orginal" name="arc_orginal" value="1"> 否
+      </label>
+      <label style="position: relative;">
+        <span>关键词：</span>
+        <input class="tag" placeholder="多个关键词之间用空格分开" value="{{tags.join(' ')}}">
+        <button (click)="showTagsModal()">从模板中添加</button>
+        <div *ngIf="tagModal" class="modal">
+          <label *ngFor="let item of allTags" (click)="selectLabel(item)">{{item}}</label>
+          
+        </div>
+      </label>
+    </div>
+    <div class="edit"></div>
+    <div class="post-msg">
+      <button (click)="post()">提交</button>
+    </div>
+  </form>
 </div>
