@@ -7,10 +7,8 @@
       <label>
         <span>文章分类：</span>
         <select formControlName="type" id="0" (click)="optionChange($event)">
-          <option 
-           *ngFor="let item of types; let i=index"
-           value="{{item.value}}" id="{{item.id}}">{{item.value}}
-        </option>
+          <option *ngFor="let item of types; let i=index" value="{{item.value}}" id="{{item.id}}">{{item.value}}
+          </option>
         </select>
       </label>
       <label>
@@ -23,7 +21,7 @@
         <input class="tag" placeholder="多个关键词之间用空格分开" value="{{tags.join(' ')}}">
         <button (click)="showTagsModal()">从模板中添加</button>
         <div *ngIf="tagModal" class="modal">
-          <label *ngFor="let item of allTags" (click)="selectLabel(item)">{{item}}</label>
+          <label *ngFor="let item of allTags" (click)="selectLabel($event,item)" class="">{{item}}</label>
           
         </div>
       </label>

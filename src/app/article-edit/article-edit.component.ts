@@ -60,10 +60,15 @@ export class ArticleEditComponent implements OnInit {
   showTagsModal() {
     this.tagModal = true;
   }
-  selectLabel(item) {
-    console.log(item);
-    this.tagModal = false;
-    this.tags.push(item);
+  selectLabel(event, item) {
+    if (this.tags.indexOf(item) > -1) {
+      event.target.classList.remove('selected');
+    } else {
+      event.target.classList.add('selected');
+      this.tags.push(item);
+    }
+    console.log(event);
+    // this.tagModal = false;
     const tags = this.tags.join(' ');
     this.articleForm.patchValue({
       tags: tags

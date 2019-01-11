@@ -49,9 +49,27 @@
         width: 80px;
         margin: 10px;
         text-align: center;
+        line-height: 35px;
+        height: 35px;
         background-color: rgba(20, 133, 207, 0.582);
-        color: rgb(238, 17, 17);
+        // color: rgb(238, 17, 17);
+        color: #fff;
         cursor: pointer;
+        position: relative;
+      }
+      label.selected::after{
+        display: block;
+        position: absolute;
+        z-index: 20;
+        top:0px;
+        left: 0px;
+        width: 80px;
+        content:' ';
+        opacity: 0.8;
+        background: url(../../assets/label_selected.png) no-repeat center;
+        background-size: contain;
+        height: 35px;
+        background-color: rgb(231, 238, 231);
       }
     }
   }
