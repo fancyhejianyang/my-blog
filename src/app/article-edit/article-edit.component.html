@@ -1,5 +1,5 @@
 <div class="arc-edit">
-  <form [formGroup]="articleForm">
+  <form [formGroup]="articleForm" (ngSubmit)="post()">
     <div class="title">
       <input type="text" formControlName="arc_title" placeholder="请输入文章标题">
     </div>
@@ -18,17 +18,20 @@
       </label>
       <label style="position: relative;">
         <span>关键词：</span>
-        <input class="tag" placeholder="多个关键词之间用空格分开" value="{{tags.join(' ')}}">
+        <input class="tag" placeholder="多个关键词之间用空格分开" formControlName="tags" value="{{tags.join(' ')}}">
         <button (click)="showTagsModal()">从模板中添加</button>
         <div *ngIf="tagModal" class="modal">
-          <label *ngFor="let item of allTags" (click)="selectLabel($event,item)" class="">{{item}}</label>
-          
+          <label *ngFor="let item of allTags" (click)="selectLabel($event,item)" class="item.selected?'selected':''">{{item.label}}</label>
+          <div class="button-group">
+            <button class="cancel" type="button" (click)="cancel()">取消</button>
+            <button class="add" type="button" (click)="addItem()">添加</button>
+          </div>
         </div>
       </label>
     </div>
     <div class="edit"></div>
     <div class="post-msg">
-      <button (click)="post()">提交</button>
+      <button type="submit">提交</button>
     </div>
   </form>
 </div>

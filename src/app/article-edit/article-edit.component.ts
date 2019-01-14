@@ -11,11 +11,20 @@ export class ArticleEditComponent implements OnInit {
   constructor() { }
   editor;
   tags = [];
+  selectedTage = [];
   allTags = [
-    'HTML', 'CSS', 'Javascript', 'Angular',
-    'React', 'Vue', '移动端兼容', 'Jquery',
-    'ES系列', 'Typescript', 'webpack', 'gulp',
-    'Nodejs'
+    { label: 'HTML', id: 0 },
+    { label: 'CSS', id: 1 },
+    { label: 'Javascript', id: 2 },
+    { label: 'Angular', id: 3 },
+    { label: 'React', id: 4 },
+    { label: '移动端兼容', id: 5 },
+    { label: 'Jquery', id: 6 },
+    { label: 'ES系列', id: 7 },
+    { label: 'Typescript', id: 8 },
+    { label: 'webpack', id: 9 },
+    { label: 'gulp', id: 10 },
+    { label: 'Nodejs', id: 11 }
   ];
   articleForm = new FormGroup({
     arc_title: new FormControl(''),
@@ -44,8 +53,14 @@ export class ArticleEditComponent implements OnInit {
   tagModal = false;
   ngOnInit() {
     this.editor = new E('.edit');
-    this.editor.customConfig.onchange = function (html) {
+    this.editor.customConfig.onchange = html => {
       console.log(html);
+    };
+    this.editor.customConfig.onblur = html => {
+      // 此处是否需要添加编辑区失去焦点关闭 tagModal
+    };
+    this.editor.customConfig.onfocus = html => {
+      this.tagModal = false;
     };
     this.editor.create();
     this.editor.$textContainerElem[0].style.height = '750px';
@@ -58,21 +73,34 @@ export class ArticleEditComponent implements OnInit {
     console.log(this.articleForm);
   }
   showTagsModal() {
+    console.log(this.tagModal);
     this.tagModal = true;
   }
-  selectLabel(event, item) {
-    if (this.tags.indexOf(item) > -1) {
-      event.target.classList.remove('selected');
-    } else {
-      event.target.classList.add('selected');
-      this.tags.push(item);
-    }
-    console.log(event);
-    // this.tagModal = false;
-    const tags = this.tags.join(' ');
+  addItem() {
+    const tags = this.selectedTage;
     this.articleForm.patchValue({
       tags: tags
     });
-    console.log(this.articleForm);
+    this.tagModal = false;
+    console.log(this.selectedTage);
+  }
+  cancel() {
+    // this.selectedTage = [];
+    // const tags = this.selectedTage;
+    // this.articleForm.patchValue({
+    //   tags: tags
+    // });
+    this.tagModal = false;
+  }
+  selectLabel(event, item) {
+    this.allTags.filter(o=>{});
+    // if (this.selectedTage.indexOf(item) > -1) {
+    //   event.target.classList.remove('selected');
+    //   this.selectedTage = this.selectedTage.filter(o => o !== item);
+    // } else {
+    //   // event.target.classList.add('selected');
+    //   item.selected = true;
+    //   this.selectedTage.push(item);
+    // }
   }
 }
