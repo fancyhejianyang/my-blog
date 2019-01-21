@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import E from 'wangeditor';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-article-edit',
   templateUrl: './article-edit.component.html',
@@ -8,11 +10,13 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class ArticleEditComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
   editor;
   tags = [];
   selectedTage = [];
-  allTags = [
+  allTags: Array<{ label: string, id: number, selected?: boolean }> = [
     { label: 'HTML', id: 0 },
     { label: 'CSS', id: 1 },
     { label: 'Javascript', id: 2 },
@@ -27,27 +31,32 @@ export class ArticleEditComponent implements OnInit {
     { label: 'Nodejs', id: 11 }
   ];
   articleForm = new FormGroup({
-    arc_title: new FormControl(''),
-    type: new FormControl(''),
-    arc_orginal: new FormControl(''),
-    tags: new FormControl(' ')
+    arc_title: new FormControl('', [Validators.required]),
+    type: new FormControl('', [Validators.required]),
+    arc_orginal: new FormControl('0', [Validators.required]),
+    tags: new FormControl('', [Validators.required])
   });
+  _type: string;
   types = [
     {
       id: 0,
-      value: '框架学习'
+      value: '框架学习',
+      url: 'frame'
     },
     {
       id: 1,
-      value: 'Nodejs'
+      value: 'Nodejs',
+      url: 'nodejs'
     },
     {
       id: 2,
-      value: '实用前端'
+      value: '实用前端',
+      url: 'practicial'
     },
     {
       id: 3,
-      value: '生活感悟'
+      value: '生活随笔',
+      url: 'other'
     }
   ];
   tagModal = false;
@@ -66,14 +75,19 @@ export class ArticleEditComponent implements OnInit {
     this.editor.$textContainerElem[0].style.height = '750px';
   }
   post() {
-    this.editor.change();
-    console.log(this.editor.txt.html());
+    // this.editor.change();
+    alert();
+    if (this.articleForm.valid) {
+
+    }
   }
   optionChange(e) {
-    console.log(this.articleForm);
+    console.log(e.target.value);
+    this._type = this.types.filter(o => o.value === e.target.value)[0].url;
   }
-  showTagsModal() {
-    console.log(this.tagModal);
+  showTagsModal(e) {
+    console.log(e);
+    e.preventDefault();
     this.tagModal = true;
   }
   addItem() {
@@ -85,22 +99,29 @@ export class ArticleEditComponent implements OnInit {
     console.log(this.selectedTage);
   }
   cancel() {
-    // this.selectedTage = [];
-    // const tags = this.selectedTage;
-    // this.articleForm.patchValue({
-    //   tags: tags
-    // });
+    this.selectedTage = [];
+    const tags = this.selectedTage;
+    this.articleForm.patchValue({
+      tags: tags
+    });
     this.tagModal = false;
   }
   selectLabel(event, item) {
-    this.allTags.filter(o=>{});
-    // if (this.selectedTage.indexOf(item) > -1) {
-    //   event.target.classList.remove('selected');
-    //   this.selectedTage = this.selectedTage.filter(o => o !== item);
-    // } else {
-    //   // event.target.classList.add('selected');
-    //   item.selected = true;
-    //   this.selectedTage.push(item);
-    // }
+    if (this.selectedTage.indexOf(item.label) > -1) {
+      item.selected = false;
+      this.selectedTage = this.selectedTage.filter(o => o !== item.label);
+    } else {
+      // event.target.classList.add('selected');
+      item.selected = true;
+      this.selectedTage.push(item.label);
+    }
+    this.allTags.map(o => {
+      if (o.id === item.id) {
+        Object.assign(o, item);
+      }
+    });
+  }
+  cancelPublish() {
+    this.router.navigateByUrl('view');
   }
 }

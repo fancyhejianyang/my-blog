@@ -6,7 +6,7 @@
     <div class="options">
       <label>
         <span>文章分类：</span>
-        <select formControlName="type" id="0" (click)="optionChange($event)">
+        <select formControlName="type" id="0" (change)="optionChange($event)">
           <option *ngFor="let item of types; let i=index" value="{{item.value}}" id="{{item.id}}">{{item.value}}
           </option>
         </select>
@@ -19,9 +19,9 @@
       <label style="position: relative;">
         <span>关键词：</span>
         <input class="tag" placeholder="多个关键词之间用空格分开" formControlName="tags" value="{{tags.join(' ')}}">
-        <button (click)="showTagsModal()">从模板中添加</button>
+        <button (click)="showTagsModal($event)">从模板中添加</button>
         <div *ngIf="tagModal" class="modal">
-          <label *ngFor="let item of allTags" (click)="selectLabel($event,item)" class="item.selected?'selected':''">{{item.label}}</label>
+          <label *ngFor="let item of allTags" (click)="selectLabel($event,item)" class="{{item['selected']?'selected':''}}">{{item.label}}</label>
           <div class="button-group">
             <button class="cancel" type="button" (click)="cancel()">取消</button>
             <button class="add" type="button" (click)="addItem()">添加</button>
@@ -31,7 +31,8 @@
     </div>
     <div class="edit"></div>
     <div class="post-msg">
-      <button type="submit">提交</button>
+      <button type="submit">发表</button>
+      <button type="button" (click)="cancelPublish()">取消</button>
     </div>
   </form>
 </div>

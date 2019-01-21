@@ -111,3 +111,23 @@
     }
   }
 }
+.post-msg{
+  width: 200px;
+  text-align: center;
+  margin:30px 0;
+  button{
+    height: 30px;
+    width: 70px;
+    line-height: 30px;
+    font-size: 14px;
+    text-align: center;
+    padding:0 5px;
+    border-radius: 5px;
+    outline: none;
+    background-color: rgba(20, 133, 207, 0.582);
+    color: #fff;
+    &:hover{
+      background-color: rgba(13, 95, 150, 0.582);
+    }
+  }
+}
