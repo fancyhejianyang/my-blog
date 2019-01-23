@@ -36,7 +36,8 @@ export class ArticleEditComponent implements OnInit {
     arc_title: new FormControl('', [Validators.required]),
     type: new FormControl('', [Validators.required]),
     arc_orginal: new FormControl('0', [Validators.required]),
-    tags: new FormControl('', [Validators.required])
+    tags: new FormControl('', [Validators.required]),
+    content: new FormControl('', [Validators.required])
   });
   _type: string;
   types = [
@@ -66,6 +67,9 @@ export class ArticleEditComponent implements OnInit {
     this.editor = new E('.edit');
     this.editor.customConfig.onchange = html => {
       console.log(html);
+      this.articleForm.patchValue({
+        content: html
+      });
     };
     this.editor.customConfig.onblur = html => {
       // 此处是否需要添加编辑区失去焦点关闭 tagModal
@@ -79,21 +83,27 @@ export class ArticleEditComponent implements OnInit {
   post() {
     // this.editor.change();
     if (this.articleForm.valid) {
-      this.http.get('http://127.0.0.1:8081/test', {
-        headers: {
-          header: 'Content-Type'
-        },
-        observe: 'body',
-        responseType: 'json',
-        // withCredentials: true
-      }).subscribe(data => {
-        console.log(data);
-      });
+      const params = this.articleForm.value;
+      // console.log(new Date());
+      this.http.post('http://127.0.0.1:8081/blog',
+        {
+          headers: {
+            header: 'Content-Type'
+          },
+          observe: 'body',
+          params: {
+            ...params
+          },
+          responseType: 'json',
+          // withCredentials: true
+        }).subscribe(data => {
+          console.log(data);
+        });
     }
   }
   optionChange(e) {
-    console.log(e.target.value);
     this._type = this.types.filter(o => o.value === e.target.value)[0].url;
+    console.log(this._type);
   }
   showTagsModal(e) {
     console.log(e);
