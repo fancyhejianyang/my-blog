@@ -6,7 +6,7 @@
     <div class="options">
       <label>
         <span>文章分类：</span>
-        <select formControlName="type" id="0" (change)="optionChange($event)">
+        <select id="0" (change)="optionChange($event)">
           <option *ngFor="let item of types; let i=index" value="{{item.value}}" id="{{item.id}}">{{item.value}}
           </option>
         </select>
@@ -29,8 +29,12 @@
         </div>
       </label>
     </div>
-    <div class="edit"></div>
-    <input type="text" formControlName="content" hidden>
+    <div class="edit">
+      <ckeditor [editor]="Editor" data="<p>Hello, world!</p>" (ready)="onEditorReady($event)" (change)="onChange($event)">
+      </ckeditor>
+    </div>
+
+    <!-- <input type="text" formControlName="content" hidden> -->
     <div class="post-msg">
       <button type="submit">发表</button>
       <button type="button" (click)="cancelPublish()">取消</button>

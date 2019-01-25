@@ -36,6 +36,17 @@ export class ArticleListService {
         url = '/assets/all.json';
         break;
     }
-    return this.http.get(url);
+    return this.http.get('http://127.0.0.1:8081/getArcticlesByType', {
+      headers: {
+        header: 'Content-Type'
+      },
+      observe: 'body',
+      params: {
+        'pageSize': '10',
+        'pageIndex': '1',
+        'type': type
+      },
+      responseType: 'json'
+    });
   }
 }

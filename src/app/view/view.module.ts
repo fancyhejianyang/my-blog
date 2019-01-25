@@ -10,9 +10,10 @@ import { ArticleComponent } from '../article/article.component';
 // import { ArticleListRoutingModule } from '../article-list/article-list-routing.module';
 import { ArticleType } from '../util/arcticle-type.pipe';
 import { ArticleEditComponent } from '../article-edit/article-edit.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 @NgModule({
   imports: [
-    CommonModule, ViewRoutingModule, FormsModule, ReactiveFormsModule
+    CommonModule, ViewRoutingModule, FormsModule, ReactiveFormsModule, CKEditorModule
   ],
   declarations: [ViewComponent, HeaderComponent, ArticleListComponent, ArticleComponent, ArticleEditComponent, ArticleType]
 })

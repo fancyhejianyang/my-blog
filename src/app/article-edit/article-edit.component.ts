@@ -3,6 +3,8 @@ import E from 'wangeditor';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
+import { ChangeEvent } from '@ckeditor/ckeditor5-angular/ckeditor.component';
 
 @Component({
   selector: 'app-article-edit',
@@ -10,11 +12,11 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./article-edit.component.scss']
 })
 export class ArticleEditComponent implements OnInit {
-
   constructor(
     private router: Router,
     private http: HttpClient
   ) { }
+  public Editor = DecoupledEditor;
   editor;
   tags = [];
   selectedTage = [];
@@ -34,7 +36,7 @@ export class ArticleEditComponent implements OnInit {
   ];
   articleForm = new FormGroup({
     arc_title: new FormControl('', [Validators.required]),
-    type: new FormControl('', [Validators.required]),
+    type: new FormControl('frame', [Validators.required]),
     arc_orginal: new FormControl('0', [Validators.required]),
     tags: new FormControl('', [Validators.required]),
     content: new FormControl('', [Validators.required])
@@ -62,23 +64,31 @@ export class ArticleEditComponent implements OnInit {
       url: 'other'
     }
   ];
+  ckeConfig;
   tagModal = false;
   ngOnInit() {
-    this.editor = new E('.edit');
-    this.editor.customConfig.onchange = html => {
-      console.log(html);
-      this.articleForm.patchValue({
-        content: html
-      });
+    this.ckeConfig = {
+      allowedContent: false,
+      extraPlugins: 'divarea',
+      forcePasteAsPlainText: true,
+      browserContextMenuOnCtrl: true,
+      menu_groups: 'clipboard,table,anchor,link,image'
     };
-    this.editor.customConfig.onblur = html => {
-      // 此处是否需要添加编辑区失去焦点关闭 tagModal
-    };
-    this.editor.customConfig.onfocus = html => {
-      this.tagModal = false;
-    };
-    this.editor.create();
-    this.editor.$textContainerElem[0].style.height = '750px';
+    // this.editor = new E('.edit');
+    // this.editor.customConfig.onchange = html => {
+    //   console.log(html);
+    //   this.articleForm.patchValue({
+    //     content: html
+    //   });
+    // };
+    // this.editor.customConfig.onblur = html => {
+    //   // 此处是否需要添加编辑区失去焦点关闭 tagModal
+    // };
+    // this.editor.customConfig.onfocus = html => {
+    //   this.tagModal = false;
+    // };
+    // this.editor.create();
+    // this.editor.$textContainerElem[0].style.height = '750px';
   }
   post() {
     // this.editor.change();
@@ -101,9 +111,25 @@ export class ArticleEditComponent implements OnInit {
         });
     }
   }
+  onEditor(event) {
+    console.log(event);
+  }
+  public onEditorReady(editor) {
+    editor.ui.view.editable.element.parentElement.insertBefore(
+      editor.ui.view.toolbar.element,
+      editor.ui.view.editable.element
+    );
+  }
+  public onChange({ editor }: ChangeEvent) {
+    const data = editor.getData();
+
+    console.log(data);
+  }
   optionChange(e) {
     this._type = this.types.filter(o => o.value === e.target.value)[0].url;
-    console.log(this._type);
+    this.articleForm.patchValue({
+      type: this._type
+    });
   }
   showTagsModal(e) {
     console.log(e);

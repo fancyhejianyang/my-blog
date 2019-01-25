@@ -1,9 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, Params } from '@angular/router';
 import { ArticleListService } from '../shareService/article-list.service';
+import E from 'wangeditor';
 interface Article {
-  title: string;
+  arc_title: string;
   summary: string;
+  content: string;
   postDate: string | Date;
   views: number | string;
   type: string;
@@ -31,7 +33,8 @@ export class ArticleListComponent implements OnInit {
   }
   initArcticleList(type: string) {
     this.articleService.getArticleList(type).subscribe(res => {
-      this.articles = res.result.data;
+      console.log(res);
+      this.articles = res.data;
     });
   }
 
