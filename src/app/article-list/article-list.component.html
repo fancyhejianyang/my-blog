@@ -1,7 +1,7 @@
 <div id="article-list">
   <div *ngFor="let item of articles; let i=index">
     <h3>{{item.arc_title}}</h3>
-    <div id="summary">{{item.summary}}</div>
+    <!-- <div id="summary">{{item.summary}}</div> -->
     <div>
       <a [routerLink]="'/view/article'" [queryParams]="{arc_id:item.arc_id}">阅读全文...</a>
     </div>

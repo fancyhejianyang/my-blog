@@ -30,8 +30,8 @@
       </label>
     </div>
     <div class="edit">
-      <ckeditor [editor]="Editor" data="<p>Hello, world!</p>" (ready)="onEditorReady($event)" (change)="onChange($event)">
-      </ckeditor>
+      <froala [froalaOptions]="froalaOptions" [froalaData]="text" (model)="onFroalaModelChanged($event)"
+        (editorInitialized)="onEditorInitialized()"></froala>
     </div>
 
     <!-- <input type="text" formControlName="content" hidden> -->

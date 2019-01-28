@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, Params } from '@angular/router';
 import { ArticleListService } from '../shareService/article-list.service';
-import E from 'wangeditor';
+// import E from 'wangeditor';
 interface Article {
   arc_title: string;
   summary: string;

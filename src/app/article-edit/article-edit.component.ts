@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import E from 'wangeditor';
+// import E from 'wangeditor';
+import { FroalaEditorComponent } from 'ng2-froala-editor/ng2-froala-editor';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
-import { ChangeEvent } from '@ckeditor/ckeditor5-angular/ckeditor.component';
-
 @Component({
   selector: 'app-article-edit',
   templateUrl: './article-edit.component.html',
@@ -16,8 +14,6 @@ export class ArticleEditComponent implements OnInit {
     private router: Router,
     private http: HttpClient
   ) { }
-  public Editor = DecoupledEditor;
-  editor;
   tags = [];
   selectedTage = [];
   allTags: Array<{ label: string, id: number, selected?: boolean }> = [
@@ -64,16 +60,20 @@ export class ArticleEditComponent implements OnInit {
       url: 'other'
     }
   ];
-  ckeConfig;
+  text = '<div>Hey we are testing Froala Editor</div>';
+  editor: any;
+
+  froalaOptions: any = {
+    shortcutsEnabled: [
+       'indent', 'outdent', 'undo', 'redo', 'insertImage',
+      'createLink'],
+    height: 300
+  };
   tagModal = false;
   ngOnInit() {
-    this.ckeConfig = {
-      allowedContent: false,
-      extraPlugins: 'divarea',
-      forcePasteAsPlainText: true,
-      browserContextMenuOnCtrl: true,
-      menu_groups: 'clipboard,table,anchor,link,image'
-    };
+    // $('.selector').froalaEditor({
+    //   shortcutsEnabled: ['bold', 'italic']
+    // });
     // this.editor = new E('.edit');
     // this.editor.customConfig.onchange = html => {
     //   console.log(html);
@@ -111,19 +111,17 @@ export class ArticleEditComponent implements OnInit {
         });
     }
   }
-  onEditor(event) {
-    console.log(event);
+  onFroalaModelChanged(event: any) {
+    setTimeout(() => {
+      this.text = event;
+    });
   }
-  public onEditorReady(editor) {
-    editor.ui.view.editable.element.parentElement.insertBefore(
-      editor.ui.view.toolbar.element,
-      editor.ui.view.editable.element
-    );
-  }
-  public onChange({ editor }: ChangeEvent) {
-    const data = editor.getData();
 
-    console.log(data);
+  onEditorInitialized(event?: any) {
+    this.editor = FroalaEditorComponent.getFroalaInstance();
+    this.editor.on('froalaEditor.focus', (e, editor) => {
+      console.log('editor is focused');
+    });
   }
   optionChange(e) {
     this._type = this.types.filter(o => o.value === e.target.value)[0].url;
