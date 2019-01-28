@@ -65,8 +65,8 @@ export class ArticleEditComponent implements OnInit {
 
   froalaOptions: any = {
     shortcutsEnabled: [
-       'indent', 'outdent', 'undo', 'redo', 'insertImage',
-      'createLink'],
+      'show', 'bold', 'italic', 'underline', 'strikeThrough', 'indent', 'outdent', 'undo', 'redo', 'insertImage',
+      'createLink', 'html'],
     height: 300
   };
   tagModal = false;
