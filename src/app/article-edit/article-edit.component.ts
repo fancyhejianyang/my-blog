@@ -60,7 +60,7 @@ export class ArticleEditComponent implements OnInit {
       url: 'other'
     }
   ];
-  text = '<div>Hey we are testing Froala Editor</div>';
+  text = '<div>现在您可以编辑了...</div>';
   editor: any;
 
   froalaOptions: any = {
@@ -71,30 +71,10 @@ export class ArticleEditComponent implements OnInit {
   };
   tagModal = false;
   ngOnInit() {
-    // $('.selector').froalaEditor({
-    //   shortcutsEnabled: ['bold', 'italic']
-    // });
-    // this.editor = new E('.edit');
-    // this.editor.customConfig.onchange = html => {
-    //   console.log(html);
-    //   this.articleForm.patchValue({
-    //     content: html
-    //   });
-    // };
-    // this.editor.customConfig.onblur = html => {
-    //   // 此处是否需要添加编辑区失去焦点关闭 tagModal
-    // };
-    // this.editor.customConfig.onfocus = html => {
-    //   this.tagModal = false;
-    // };
-    // this.editor.create();
-    // this.editor.$textContainerElem[0].style.height = '750px';
   }
   post() {
-    // this.editor.change();
     if (this.articleForm.valid) {
       const params = this.articleForm.value;
-      // console.log(new Date());
       this.http.post('http://127.0.0.1:8081/blog',
         {
           headers: {
@@ -120,7 +100,14 @@ export class ArticleEditComponent implements OnInit {
   onEditorInitialized(event?: any) {
     this.editor = FroalaEditorComponent.getFroalaInstance();
     this.editor.on('froalaEditor.focus', (e, editor) => {
-      console.log('editor is focused');
+      // console.log('editor is focused');
+    });
+    this.editor.on('froalaEditor.blur', (e, editor) => {
+      console.log('editor is blur');
+      console.log(e.target.value);
+      this.articleForm.patchValue({
+        'content': e.target.value
+      });
     });
   }
   optionChange(e) {
@@ -130,17 +117,34 @@ export class ArticleEditComponent implements OnInit {
     });
   }
   showTagsModal(e) {
-    console.log(e);
     e.preventDefault();
-    this.tagModal = true;
+    this.tagModal = !this.tagModal;
+    if (this.tagModal) {
+      // 若手动删除了上次选中的tag 则需要更新面板 (挑出selected标记的那些对比)
+      this.allTagsUpdate(this.articleForm.value.tags);
+      // console.log(this.articleForm.value);
+      // console.log(this.selectedTage);
+    }
+  }
+  allTagsUpdate(tags) {
+    if (tags) {
+      this.allTags.map((item, index) => {
+        if (tags.indexOf(item.label) > -1) {
+          item.selected = true;
+        } else {
+          item.selected = false;
+        }
+      });
+    }
   }
   addItem() {
+    // 获取input框内内容
+    console.log(this.articleForm);
     const tags = this.selectedTage;
     this.articleForm.patchValue({
       tags: tags
     });
     this.tagModal = false;
-    console.log(this.selectedTage);
   }
   cancel() {
     this.selectedTage = [];
@@ -151,11 +155,18 @@ export class ArticleEditComponent implements OnInit {
     this.tagModal = false;
   }
   selectLabel(event, item) {
+    console.log(this.articleForm.value.tags);
+    if (this.articleForm.value.tags !== '') {
+      console.log(this.articleForm.value.tags);
+      this.selectedTage = this.articleForm.value.tags;
+    }
+    console.log(this.selectedTage);
     if (this.selectedTage.indexOf(item.label) > -1) {
       item.selected = false;
       this.selectedTage = this.selectedTage.filter(o => o !== item.label);
     } else {
       // event.target.classList.add('selected');
+      console.log(this.selectedTage);
       item.selected = true;
       this.selectedTage.push(item.label);
     }

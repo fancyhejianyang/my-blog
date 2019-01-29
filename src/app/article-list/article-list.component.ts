@@ -1,10 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, Params } from '@angular/router';
+import { FroalaEditorComponent } from 'ng2-froala-editor/ng2-froala-editor';
 import { ArticleListService } from '../shareService/article-list.service';
 // import E from 'wangeditor';
 interface Article {
   arc_title: string;
-  summary: string;
+  // summary: string;
   content: string;
   postDate: string | Date;
   views: number | string;
@@ -20,11 +21,14 @@ interface Article {
 export class ArticleListComponent implements OnInit {
   constructor(
     private activeRouter: ActivatedRoute,
-    private articleService: ArticleListService
+    private articleListService: ArticleListService
   ) {
   }
   articles: Array<Article>;
   arc_type: string;
+  option: {
+
+  };
   ngOnInit() {
     this.activeRouter.queryParams.subscribe((params: Params) => {
       this.arc_type = params['type'] || 'all';
@@ -32,7 +36,7 @@ export class ArticleListComponent implements OnInit {
     });
   }
   initArcticleList(type: string) {
-    this.articleService.getArticleList(type).subscribe(res => {
+    this.articleListService.getArticleList(type).subscribe(res => {
       console.log(res);
       this.articles = res.data;
     });

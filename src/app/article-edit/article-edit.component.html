@@ -18,7 +18,7 @@
       </label>
       <label style="position: relative;">
         <span>关键词：</span>
-        <input class="tag" placeholder="多个关键词之间用空格分开" formControlName="tags" value="{{tags.join(' ')}}">
+        <input class="tag" placeholder="多个关键词之间用','分开" formControlName="tags">
         <button (click)="showTagsModal($event)">从模板中添加</button>
         <div *ngIf="tagModal" class="modal">
           <label *ngFor="let item of allTags" (click)="selectLabel($event,item)" class="{{item['selected']?'selected':''}}">{{item.label}}</label>
