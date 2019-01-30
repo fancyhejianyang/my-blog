@@ -30,7 +30,8 @@ export class ArticleEditComponent implements OnInit {
     { label: 'Typescript', id: 8 },
     { label: 'webpack', id: 9 },
     { label: 'gulp', id: 10 },
-    { label: 'Nodejs', id: 11 }
+    { label: 'Nodejs', id: 11 },
+    { label: '服务端知识', id: 12 }
   ];
   articleForm = new FormGroup({
     arc_title: new FormControl('', [Validators.required]),
@@ -71,7 +72,7 @@ export class ArticleEditComponent implements OnInit {
     shortcutsEnabled: [
       'show', 'bold', 'italic', 'underline', 'strikeThrough', 'indent', 'outdent', 'undo', 'redo', 'insertImage',
       'createLink', 'html'],
-    height: 300
+    height: 900
   };
   tagModal = false;
   ngOnInit() {
@@ -93,8 +94,9 @@ export class ArticleEditComponent implements OnInit {
           },
           responseType: 'json',
           // withCredentials: true
-        }).subscribe(data => {
-          console.log(data);
+        }).subscribe(res => {
+          console.log(res);
+          this.router.navigateByUrl('/view?type=' + this.articleForm.value.type);
         });
     }
   }

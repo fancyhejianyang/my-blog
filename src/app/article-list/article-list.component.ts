@@ -40,7 +40,7 @@ export class ArticleListComponent implements OnInit {
   initArcticleList(type: string, pageIndex: number) {
     this.articleListService.getArticleList(type, String(pageIndex)).subscribe(res => {
       console.log(res);
-      if (res.code === '1' && res.data.length > 1) {
+      if (res.code === '1' && res.data.length >= 1) {
         this.articles = res.data;
         this.autoHeight = res.data.length > 5 ? 150 * res.data.length + 'px' : '750px';
       } else {
