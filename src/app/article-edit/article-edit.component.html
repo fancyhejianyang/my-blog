@@ -1,5 +1,5 @@
-<div class="arc-edit">
-  <form [formGroup]="articleForm" (ngSubmit)="post()">
+<div class="arc-edit" (click)="editClick($event)">
+  <form [formGroup]="articleForm" (ngSubmit)="post($event)">
     <div class="title">
       <input type="text" formControlName="arc_title" placeholder="请输入文章标题">
     </div>
@@ -16,6 +16,7 @@
         <input type="radio" formControlName="arc_orginal" name="arc_orginal" value="0" checked="{{true}}"> 是
         <input type="radio" formControlName="arc_orginal" name="arc_orginal" value="1"> 否
       </label>
+      <label *ngIf="articleForm.value.arc_orginal ==='1'">原文地址：<input type="text" placeholder="原文链接必须带有http开头！" formControlName="originLink"></label>
       <label style="position: relative;">
         <span>关键词：</span>
         <input class="tag" placeholder="多个关键词之间用','分开" formControlName="tags">
@@ -23,8 +24,8 @@
         <div *ngIf="tagModal" class="modal">
           <label *ngFor="let item of allTags" (click)="selectLabel($event,item)" class="{{item['selected']?'selected':''}}">{{item.label}}</label>
           <div class="button-group">
-            <button class="cancel" type="button" (click)="cancel()">取消</button>
-            <button class="add" type="button" (click)="addItem()">添加</button>
+            <button class="cancel" type="button" (click)="cancel($event)">取消</button>
+            <button class="add" type="button" (click)="addItem($event)">确认</button>
           </div>
         </div>
       </label>
@@ -33,8 +34,11 @@
       <froala [froalaOptions]="froalaOptions" [froalaData]="text" (model)="onFroalaModelChanged($event)"
         (editorInitialized)="onEditorInitialized()"></froala>
     </div>
-
-    <!-- <input type="text" formControlName="content" hidden> -->
+    <div class="summary">
+      <label>摘要：</label>
+      <br>
+      <textarea placeholder="简单叙述文章主要内容，200字以内" formControlName="summary"></textarea>
+    </div>
     <div class="post-msg">
       <button type="submit">发表</button>
       <button type="button" (click)="cancelPublish()">取消</button>

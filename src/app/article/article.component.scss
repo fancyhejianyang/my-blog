@@ -24,3 +24,26 @@
     padding:0 15px;
   }
 }
+.page-not-found{
+  text-align: center;
+  height: 200px;
+  .errMsg{
+    font-size: 20px;
+    line-height: 100px;
+  }
+  .operation{
+    height: 100px;
+    text-align: center;
+    button{
+      font-size: 14px;
+      color: #fff;
+      text-align: center;
+      line-height: 30px;
+      width: 100px;
+      margin:0 15px;
+      background-color: rgb(8, 81, 150);
+      user-select: none;
+      border: 0px;
+    }
+  }
+}

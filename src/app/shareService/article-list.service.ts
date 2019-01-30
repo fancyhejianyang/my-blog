@@ -13,29 +13,7 @@ export class ArticleListService {
   arc_type_update(type: string) {
     this.arc_type.next(type);
   }
-  getArticleList(type: string): Observable<any> {
-    let url;
-    url = '/assets/all.json';
-    switch (type) {
-      case 'all':
-        url = '/assets/all.json';
-        break;
-      case 'frame':
-        url = '/assets/frame.json';
-        break;
-      case 'nodejs':
-        url = '/assets/nodejs.json';
-        break;
-      case 'practicial':
-        url = '/assets/practicial.json';
-        break;
-      case 'other':
-        url = '/assets/other.json';
-        break;
-      default:
-        url = '/assets/all.json';
-        break;
-    }
+  getArticleList(type: string, pageIndex: string): Observable<any> {
     return this.http.get('http://127.0.0.1:8081/getArcticlesByType', {
       headers: {
         header: 'Content-Type'
@@ -43,7 +21,7 @@ export class ArticleListService {
       observe: 'body',
       params: {
         'pageSize': '10',
-        'pageIndex': '1',
+        'pageIndex': pageIndex,
         'type': type
       },
       responseType: 'json'

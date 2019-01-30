@@ -1,8 +1,13 @@
 <div class="article-show">
-  <div *ngIf="paramErr">
-
+  <div *ngIf="article===undefined">
+    <div class="page-not-found">
+      <div class="errMsg">对不起，页面不存在，请尝试重试或者返回首页！</div>
+      <div class="operation">
+        <button (click)="backTohome()">返回首页</button><button (click)="refresh()">刷新</button>
+      </div>
+    </div>
   </div>
-  <div *ngIf="!paramsErr">
+  <div *ngIf="article">
     <div class="arc_title">{{article.arc_title}}</div>
     <div class="arc_relate">
       <span>{{article.postDate}}</span>
@@ -13,8 +18,8 @@
       <div *ngIf="article.arc_orginal === '0'">
         版权声明：本文为博主原创，转载请注明出处：
       </div>
-      <div *ngIf="!article.arc_orginal === '1'">
-        原文地址：
+      <div *ngIf="article.arc_orginal === '1'">
+        原文地址：<a href="{{article.originLink}}">{{article.originLink}}</a>
       </div>
     </div>
     <div class="arc_main" [innerHTML]="article.content"></div>

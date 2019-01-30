@@ -22,9 +22,10 @@ interface Article {
 export class ArticleComponent implements OnInit {
   constructor(
     private activeRouter: ActivatedRoute,
-    private articleService: ArticleService
+    private articleService: ArticleService,
+    private router: Router
   ) { }
-  article: Article = {
+  article = {
     type: '',
     arc_title: '',
     postDate: '',
@@ -33,7 +34,7 @@ export class ArticleComponent implements OnInit {
     arc_orginal: '0',
     content: ''
   };
-  paramErr = true;
+  paramErr = false;
   converter = new Showdown.Converter();
   ngOnInit() {
     this.activeRouter.queryParams.subscribe((params: Params) => {
@@ -43,12 +44,14 @@ export class ArticleComponent implements OnInit {
   initArticle(arc_id) {
     this.articleService.getArticle(arc_id).subscribe(res => {
       console.log(res);
-      if (res.code === '1') {
-        this.paramErr = false;
-        this.article = res.data[0];
-      }
-
+      this.article = res.data[0];
     });
+  }
+  backTohome() {
+    this.router.navigateByUrl('/view');
+  }
+  refresh(){
+    window.location.reload();
   }
 
 }

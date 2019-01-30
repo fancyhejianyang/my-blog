@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  @Output() arctype = new EventEmitter<boolean>();
   constructor(
     private router: Router
   ) { }
@@ -35,8 +34,4 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
 
   }
-  toggleArticle(e, item) {
-    this.arctype.emit(item);
-  }
-
 }

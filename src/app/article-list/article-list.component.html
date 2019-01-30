@@ -1,8 +1,8 @@
 <div class="article-list">
-  <div class="list">
+  <div class="list" [ngStyle]="{'height': autoHeight}" *ngIf="articles.length">
     <div *ngFor="let item of articles; let i=index" class="article">
       <h2>{{item.arc_title}}</h2>
-      <div class="summary" [innerHTML]="item.content.substr(0,200)"></div>
+      <div class="summary" [innerHTML]="item.summary"></div>
       <div>
         <a [routerLink]="'/view/article'" [queryParams]="{type:item.type,arc_id:item.arc_id}">阅读全文...</a>
       </div>
@@ -12,7 +12,11 @@
       </div>
     </div>
   </div>
-  <div class="pagination">
-    11
+  <div class="list" *ngIf="!articles.length" [ngStyle]="{'height': '300px','line-height':'300px','text-align':'center'}">
+    暂无文章！
+  </div>
+  <div class="pagination" *ngIf="articles.length">
+    <button class="prePage" (click)="prePage()">上一页</button>
+    <button class="nexPage" (click)="nextPage()">下一页</button>
   </div>
 </div>

@@ -15,7 +15,13 @@ export class ArticleType implements PipeTransform {
         result = '实用前端';
         break;
       case 'other':
-        result = '其它';
+        result = '生活日常';
+        break;
+      case 'all':
+        result = '首页';
+        break;
+      case 'edit':
+        result = '文章编辑';
         break;
       default:
         break;

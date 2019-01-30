@@ -4,6 +4,7 @@ import { FroalaEditorComponent } from 'ng2-froala-editor/ng2-froala-editor';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { ArticleListService } from '../shareService/article-list.service';
 @Component({
   selector: 'app-article-edit',
   templateUrl: './article-edit.component.html',
@@ -12,7 +13,8 @@ import { HttpClient } from '@angular/common/http';
 export class ArticleEditComponent implements OnInit {
   constructor(
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private articleListServe: ArticleListService
   ) { }
   tags = [];
   selectedTage = [];
@@ -34,8 +36,10 @@ export class ArticleEditComponent implements OnInit {
     arc_title: new FormControl('', [Validators.required]),
     type: new FormControl('frame', [Validators.required]),
     arc_orginal: new FormControl('0', [Validators.required]),
-    tags: new FormControl('', [Validators.required]),
-    content: new FormControl('', [Validators.required])
+    tags: new FormControl([], [Validators.required]),
+    content: new FormControl('', [Validators.required]),
+    originLink: new FormControl(''),
+    summary: new FormControl('', [Validators.required])
   });
   _type: string;
   types = [
@@ -71,8 +75,11 @@ export class ArticleEditComponent implements OnInit {
   };
   tagModal = false;
   ngOnInit() {
+    this.articleListServe.arc_type_update('edit');
   }
-  post() {
+  post(e) {
+    e.stopPropagation();
+    console.log(this.articleForm);
     if (this.articleForm.valid) {
       const params = this.articleForm.value;
       this.http.post('http://127.0.0.1:8081/blog',
@@ -100,7 +107,7 @@ export class ArticleEditComponent implements OnInit {
   onEditorInitialized(event?: any) {
     this.editor = FroalaEditorComponent.getFroalaInstance();
     this.editor.on('froalaEditor.focus', (e, editor) => {
-      // console.log('editor is focused');
+      this.tagModal = false;
     });
     this.editor.on('froalaEditor.blur', (e, editor) => {
       console.log('editor is blur');
@@ -117,28 +124,26 @@ export class ArticleEditComponent implements OnInit {
     });
   }
   showTagsModal(e) {
-    e.preventDefault();
+    e.stopPropagation();
     this.tagModal = !this.tagModal;
     if (this.tagModal) {
       // 若手动删除了上次选中的tag 则需要更新面板 (挑出selected标记的那些对比)
       this.allTagsUpdate(this.articleForm.value.tags);
-      // console.log(this.articleForm.value);
-      // console.log(this.selectedTage);
     }
   }
   allTagsUpdate(tags) {
-    if (tags) {
-      this.allTags.map((item, index) => {
-        if (tags.indexOf(item.label) > -1) {
-          item.selected = true;
-        } else {
-          item.selected = false;
-        }
-      });
-    }
+    console.log('tags:', tags);
+    this.allTags.map((item, index) => {
+      if (tags.indexOf(item.label) > -1) {
+        item.selected = true;
+      } else {
+        item.selected = false;
+      }
+    });
   }
-  addItem() {
+  addItem(e) {
     // 获取input框内内容
+    e.stopPropagation();
     console.log(this.articleForm);
     const tags = this.selectedTage;
     this.articleForm.patchValue({
@@ -146,7 +151,8 @@ export class ArticleEditComponent implements OnInit {
     });
     this.tagModal = false;
   }
-  cancel() {
+  cancel(e) {
+    e.stopPropagation();
     this.selectedTage = [];
     const tags = this.selectedTage;
     this.articleForm.patchValue({
@@ -155,12 +161,12 @@ export class ArticleEditComponent implements OnInit {
     this.tagModal = false;
   }
   selectLabel(event, item) {
-    console.log(this.articleForm.value.tags);
-    if (this.articleForm.value.tags !== '') {
-      console.log(this.articleForm.value.tags);
+    event.stopPropagation();
+    if (typeof this.articleForm.value.tags === 'string') {
+      this.selectedTage = this.articleForm.value.tags.split(',');
+    } else {
       this.selectedTage = this.articleForm.value.tags;
     }
-    console.log(this.selectedTage);
     if (this.selectedTage.indexOf(item.label) > -1) {
       item.selected = false;
       this.selectedTage = this.selectedTage.filter(o => o !== item.label);
@@ -178,5 +184,9 @@ export class ArticleEditComponent implements OnInit {
   }
   cancelPublish() {
     this.router.navigateByUrl('view');
+  }
+  editClick(event) {
+    // event.stopPropagation();
+    this.tagModal = false;
   }
 }
