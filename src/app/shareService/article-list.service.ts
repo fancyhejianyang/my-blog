@@ -14,13 +14,13 @@ export class ArticleListService {
     this.arc_type.next(type);
   }
   getArticleList(type: string, pageIndex: string): Observable<any> {
-    return this.http.get('http://127.0.0.1:8081/getArcticlesByType', {
+    return this.http.get('http://192.168.10.120:8081/getArcticlesByType', {
       headers: {
         header: 'Content-Type'
       },
       observe: 'body',
       params: {
-        'pageSize': '10',
+        'pageSize': '5',
         'pageIndex': pageIndex,
         'type': type
       },

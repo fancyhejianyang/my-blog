@@ -34,6 +34,7 @@ export class ArticleListComponent implements OnInit {
   ngOnInit() {
     this.activeRouter.queryParams.subscribe((params: Params) => {
       this.arc_type = params['type'] || 'all';
+      this.pageIndex = 1;
       this.initArcticleList(this.arc_type, this.pageIndex);
     });
   }
@@ -51,13 +52,15 @@ export class ArticleListComponent implements OnInit {
   }
   prePage() {
     if (this.pageIndex - 1 > 0) {
-      this.initArcticleList(this.arc_type, this.pageIndex - 1);
+      this.pageIndex = this.pageIndex - 1;
+      this.initArcticleList(this.arc_type, this.pageIndex);
     } else {
       alert('已经是第一页了！');
     }
   }
   nextPage() {
-    this.initArcticleList(this.arc_type, this.pageIndex + 1);
+    this.pageIndex = this.pageIndex + 1;
+    this.initArcticleList(this.arc_type, this.pageIndex);
   }
 
 }

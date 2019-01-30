@@ -12,7 +12,7 @@ export class ArticleService {
   ) { }
   getArticle(id: number): Observable<any> {
 
-    return this.http.get('http://127.0.0.1:8081/getArticle', {
+    return this.http.get('http://192.168.10.120:8081/getArticle', {
       headers: {
         header: 'Content-Type'
       },
