@@ -39,7 +39,7 @@
       <textarea placeholder="简单叙述文章主要内容，200字以内" formControlName="summary"></textarea>
     </div>
     <div class="post-msg">
-      <button type="submit">发表</button>
+      <button type="submit" [class.invalid-btn]="!articleForm.valid">发表</button>
       <button type="button" (click)="cancelPublish()">取消</button>
     </div>
   </form>

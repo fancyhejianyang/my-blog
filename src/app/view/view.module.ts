@@ -12,8 +12,19 @@ import { FroalaEditorModule } from 'ng2-froala-editor/ng2-froala-editor';
 
 @NgModule({
   imports: [
-    CommonModule, ViewRoutingModule, FormsModule, ReactiveFormsModule, FroalaEditorModule
+    CommonModule,
+    ViewRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    FroalaEditorModule
   ],
-  declarations: [ViewComponent, HeaderComponent, ArticleListComponent, ArticleComponent, ArticleEditComponent, ArticleType]
+  declarations: [
+    ViewComponent,
+    HeaderComponent,
+    ArticleListComponent,
+    ArticleComponent,
+    ArticleEditComponent,
+    ArticleType
+  ]
 })
-export class ViewModule { }
+export class ViewModule {}
