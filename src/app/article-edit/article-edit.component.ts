@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import E from 'wangeditor';
+// import E from 'wangeditor';
+import { FroalaEditorComponent } from 'ng2-froala-editor/ng2-froala-editor';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-
+import { ArticleListService } from '../shareService/article-list.service';
 @Component({
   selector: 'app-article-edit',
   templateUrl: './article-edit.component.html',
   styleUrls: ['./article-edit.component.scss']
 })
 export class ArticleEditComponent implements OnInit {
-
   constructor(
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private articleListServe: ArticleListService
   ) { }
-  editor;
   tags = [];
   selectedTage = [];
   allTags: Array<{ label: string, id: number, selected?: boolean }> = [
@@ -30,13 +30,17 @@ export class ArticleEditComponent implements OnInit {
     { label: 'Typescript', id: 8 },
     { label: 'webpack', id: 9 },
     { label: 'gulp', id: 10 },
-    { label: 'Nodejs', id: 11 }
+    { label: 'Nodejs', id: 11 },
+    { label: '服务端知识', id: 12 }
   ];
   articleForm = new FormGroup({
     arc_title: new FormControl('', [Validators.required]),
-    type: new FormControl('', [Validators.required]),
+    type: new FormControl('frame', [Validators.required]),
     arc_orginal: new FormControl('0', [Validators.required]),
-    tags: new FormControl('', [Validators.required])
+    tags: new FormControl([], [Validators.required]),
+    content: new FormControl('', [Validators.required]),
+    originLink: new FormControl(''),
+    summary: new FormControl('', [Validators.required])
   });
   _type: string;
   types = [
@@ -61,54 +65,96 @@ export class ArticleEditComponent implements OnInit {
       url: 'other'
     }
   ];
+  text = '<div>现在您可以编辑了...</div>';
+  editor: any;
+
+  froalaOptions: any = {
+    shortcutsEnabled: [
+      'show', 'bold', 'italic', 'underline', 'strikeThrough', 'indent', 'outdent', 'undo', 'redo', 'insertImage',
+      'createLink', 'html'],
+    height: 900
+  };
   tagModal = false;
   ngOnInit() {
-    this.editor = new E('.edit');
-    this.editor.customConfig.onchange = html => {
-      console.log(html);
-    };
-    this.editor.customConfig.onblur = html => {
-      // 此处是否需要添加编辑区失去焦点关闭 tagModal
-    };
-    this.editor.customConfig.onfocus = html => {
-      this.tagModal = false;
-    };
-    this.editor.create();
-    this.editor.$textContainerElem[0].style.height = '750px';
+    this.articleListServe.arc_type_update('edit');
   }
-  post() {
-    // this.editor.change();
+  post(e) {
+    e.stopPropagation();
+    console.log(this.articleForm);
     if (this.articleForm.valid) {
-      this.http.get('http://127.0.0.1:8081/test', {
-        headers: {
-          header: 'Content-Type'
-        },
-        observe: 'body',
-        responseType: 'json',
-        // withCredentials: true
-      }).subscribe(data => {
-        console.log(data);
-      });
+      const params = this.articleForm.value;
+      this.http.post('http://127.0.0.1:8081/blog',
+        {
+          headers: {
+            header: 'Content-Type'
+          },
+          observe: 'body',
+          params: {
+            ...params
+          },
+          responseType: 'json',
+          // withCredentials: true
+        }).subscribe(res => {
+          console.log(res);
+          this.router.navigateByUrl('/view?type=' + this.articleForm.value.type);
+        });
     }
   }
+  onFroalaModelChanged(event: any) {
+    setTimeout(() => {
+      this.text = event;
+    });
+  }
+
+  onEditorInitialized(event?: any) {
+    this.editor = FroalaEditorComponent.getFroalaInstance();
+    this.editor.on('froalaEditor.focus', (e, editor) => {
+      this.tagModal = false;
+    });
+    this.editor.on('froalaEditor.blur', (e, editor) => {
+      console.log('editor is blur');
+      console.log(e.target.value);
+      this.articleForm.patchValue({
+        'content': e.target.value
+      });
+    });
+  }
   optionChange(e) {
-    console.log(e.target.value);
     this._type = this.types.filter(o => o.value === e.target.value)[0].url;
+    this.articleForm.patchValue({
+      type: this._type
+    });
   }
   showTagsModal(e) {
-    console.log(e);
-    e.preventDefault();
-    this.tagModal = true;
+    e.stopPropagation();
+    this.tagModal = !this.tagModal;
+    if (this.tagModal) {
+      // 若手动删除了上次选中的tag 则需要更新面板 (挑出selected标记的那些对比)
+      this.allTagsUpdate(this.articleForm.value.tags);
+    }
   }
-  addItem() {
+  allTagsUpdate(tags) {
+    console.log('tags:', tags);
+    this.allTags.map((item, index) => {
+      if (tags.indexOf(item.label) > -1) {
+        item.selected = true;
+      } else {
+        item.selected = false;
+      }
+    });
+  }
+  addItem(e) {
+    // 获取input框内内容
+    e.stopPropagation();
+    console.log(this.articleForm);
     const tags = this.selectedTage;
     this.articleForm.patchValue({
       tags: tags
     });
     this.tagModal = false;
-    console.log(this.selectedTage);
   }
-  cancel() {
+  cancel(e) {
+    e.stopPropagation();
     this.selectedTage = [];
     const tags = this.selectedTage;
     this.articleForm.patchValue({
@@ -117,11 +163,18 @@ export class ArticleEditComponent implements OnInit {
     this.tagModal = false;
   }
   selectLabel(event, item) {
+    event.stopPropagation();
+    if (typeof this.articleForm.value.tags === 'string') {
+      this.selectedTage = this.articleForm.value.tags.split(',');
+    } else {
+      this.selectedTage = this.articleForm.value.tags;
+    }
     if (this.selectedTage.indexOf(item.label) > -1) {
       item.selected = false;
       this.selectedTage = this.selectedTage.filter(o => o !== item.label);
     } else {
       // event.target.classList.add('selected');
+      console.log(this.selectedTage);
       item.selected = true;
       this.selectedTage.push(item.label);
     }
@@ -133,5 +186,9 @@ export class ArticleEditComponent implements OnInit {
   }
   cancelPublish() {
     this.router.navigateByUrl('view');
+  }
+  editClick(event) {
+    // event.stopPropagation();
+    this.tagModal = false;
   }
 }

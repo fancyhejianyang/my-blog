@@ -5,6 +5,8 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
+// import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+
 
 @NgModule({
   declarations: [
@@ -13,8 +15,8 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   imports: [
     BrowserModule,
-    // ReactiveFormsModule,
-    // FormsModule,
+    // FroalaEditorModule.forRoot(),
+    // FroalaViewModule.forRoot(),
     AppRoutingModule,
     HttpClientModule
   ],

@@ -1,11 +1,11 @@
-<app-header (arctype)="onArcType($event)"></app-header>
+<app-header></app-header>
 <ul class="horizon">
   <li>
     <img src="../../assets/home.png" alt="">
   </li>
   <li style="color:#545454;">当前位置</li>
   <li style="color:#545454;">&gt;&gt;</li>
-  <li>{{location}}</li>
+  <li style="color:#545454;">{{arc_type|filterType}}</li>
 </ul>
 <!-- <app-article-list></app-article-list> -->
 <router-outlet></router-outlet>

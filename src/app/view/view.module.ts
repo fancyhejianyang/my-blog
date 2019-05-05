@@ -6,14 +6,25 @@ import { ViewRoutingModule } from './view-routing.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ArticleListComponent } from '../article-list/article-list.component';
 import { ArticleComponent } from '../article/article.component';
-// import { ArticleListModule } from '../article-list/article-list.module';
-// import { ArticleListRoutingModule } from '../article-list/article-list-routing.module';
 import { ArticleType } from '../util/arcticle-type.pipe';
 import { ArticleEditComponent } from '../article-edit/article-edit.component';
+import { FroalaEditorModule } from 'ng2-froala-editor/ng2-froala-editor';
+
 @NgModule({
   imports: [
-    CommonModule, ViewRoutingModule, FormsModule, ReactiveFormsModule
+    CommonModule,
+    ViewRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    FroalaEditorModule
   ],
-  declarations: [ViewComponent, HeaderComponent, ArticleListComponent, ArticleComponent, ArticleEditComponent, ArticleType]
+  declarations: [
+    ViewComponent,
+    HeaderComponent,
+    ArticleListComponent,
+    ArticleComponent,
+    ArticleEditComponent,
+    ArticleType
+  ]
 })
-export class ViewModule { }
+export class ViewModule {}
